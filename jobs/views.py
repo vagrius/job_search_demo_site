@@ -1,4 +1,5 @@
-from django.http import HttpResponseNotFound, HttpResponseServerError
+from django.http import HttpResponseServerError
+from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from jobs.models import Company, Speciality, Vacancy
 
@@ -25,10 +26,7 @@ def vacancies_all_view(request):
 
 def vacancies_by_speciality_view(request, speciality_code):
 
-    if not Speciality.objects.filter(code=speciality_code).first():
-        return HttpResponseNotFound(f"Специализации с кодом '{speciality_code}' не найдено!")
-
-    speciality = Speciality.objects.filter(code=speciality_code).first()
+    speciality = get_object_or_404(Speciality, code=speciality_code)
 
     context = {
         'vacancies': speciality.vacancies.all(),
@@ -41,11 +39,10 @@ def vacancies_by_speciality_view(request, speciality_code):
 
 def company_view(request, company_id):
 
-    if not Company.objects.filter(id=company_id).first():
-        return HttpResponseNotFound(f"Компании с id='{company_id}' не найдено!")
+    company = get_object_or_404(Company, id=company_id)
 
     context = {
-        'company': Company.objects.filter(id=company_id).first(),
+        'company': company,
         'vacancies': Vacancy.objects.filter(company_id=company_id),
     }
 
@@ -54,10 +51,7 @@ def company_view(request, company_id):
 
 def vacancy_view(request, vacancy_id):
 
-    if not Vacancy.objects.filter(id=vacancy_id).first():
-        return HttpResponseNotFound(f"Вакансии с id='{vacancy_id}' не найдено!")
-
-    vacancy = Vacancy.objects.filter(id=vacancy_id).first()
+    vacancy = get_object_or_404(Vacancy, id=vacancy_id)
 
     context = {
         'vacancy': vacancy,
@@ -65,10 +59,6 @@ def vacancy_view(request, vacancy_id):
     }
 
     return render(request, "vacancy.html", context=context)
-
-
-def custom_handler404(request, exception):
-    return HttpResponseNotFound('Ошибка 404: страница не найдена!')
 
 
 def custom_handler500(request):
