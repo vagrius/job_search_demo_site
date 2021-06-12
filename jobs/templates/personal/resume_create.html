@@ -1,0 +1,28 @@
+{% extends 'base_personal.html' %}
+
+{% block container %}
+{% load ru_pluralize %}
+{% load crispy_forms_tags %}
+
+  <main class="container mt-3 pb-5">
+            <!-- Tab -->
+            <section class="col-12 col-lg-6 offset-lg-3 mt-5 card">
+            <div class="card-body px-3 pb-4">
+              <h2 class="h4 pt-2 pb-3">Мое резюме</h2>
+              {% if status and status != 'new' %}
+              <p class="alert alert-info" role="alert">
+               {% if status == 'created' %}
+                  Резюме успешно создано
+               {% elif status == 'changed' %}
+                  Резюме успешно обновлено
+               {% endif %}
+              </p>
+              {% endif %}
+              <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% crispy form %}
+            </div>
+            </section>
+            <!-- END Tab -->
+  </main>
+{% endblock %}
