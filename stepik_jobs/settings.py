@@ -147,5 +147,3 @@ LOGOUT_REDIRECT_URL = '/'
 SESSION_COOKIE_SECURE = False
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
-
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
