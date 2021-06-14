@@ -22,6 +22,7 @@
           <div style="line-height: 1.8;">
             {{ vacancy.description | safe }}
           </div>
+          {% if form %}
           <form action="" method="post" class="card mt-4 mb-3" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="card-body mx-3">
@@ -29,6 +30,9 @@
                 {% crispy form %}
             </div>
           </form>
+          {% else %}
+              <p align="center"><i><a href="{% url 'login' %}">Войти на сайт</a> или <a href="{% url 'register' %}">зарегистрироваться</a>, чтобы откликнуться на вакансию</i></p>
+          {% endif %}
         </section>
       </div>
     </div>

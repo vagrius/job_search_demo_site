@@ -75,29 +75,29 @@ class VacancyView(View):
         context = {
             'vacancy': vacancy,
             'skills_redefined': vacancy.skills,
-            'form': ApplicationSendForm,
         }
+        if request.user.id:
+            context['form'] = ApplicationSendForm
+        else:
+            context['form'] = ''
         return render(request, "main/vacancy.html", context=context)
 
     def post(self, request, *args, **kwargs):
-        if request.user.id:
-            vacancy = get_object_or_404(Vacancy, id=kwargs['vacancy_id'])
-            context = {
-                'vacancy': vacancy,
-                'skills_redefined': vacancy.skills,
-            }
-            form = ApplicationSendForm(request.POST)
-            if form.is_valid():
-                application = form.save(commit=False)
-                application.vacancy_id = vacancy.id
-                application.user_id = request.user.id
-                application.save()
-                request.session['application_id'] = application.id
-                return redirect('application_send', vacancy_id=vacancy.id)
-            context['form'] = form
-            return render(request, "main/vacancy.html", context=context)
-        else:
-            return redirect("login")
+        vacancy = get_object_or_404(Vacancy, id=kwargs['vacancy_id'])
+        context = {
+            'vacancy': vacancy,
+            'skills_redefined': vacancy.skills,
+        }
+        form = ApplicationSendForm(request.POST)
+        if form.is_valid():
+            application = form.save(commit=False)
+            application.vacancy_id = vacancy.id
+            application.user_id = request.user.id
+            application.save()
+            request.session['application_id'] = application.id
+            return redirect('application_send', vacancy_id=vacancy.id)
+        context['form'] = form
+        return render(request, "main/vacancy.html", context=context)
 
 
 class ApplicationSendView(View):
