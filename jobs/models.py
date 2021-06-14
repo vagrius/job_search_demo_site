@@ -9,10 +9,12 @@ class Company(models.Model):
     logo = models.ImageField(upload_to=settings.MEDIA_COMPANY_IMAGE_DIR)
     description = models.TextField()
     employee_count = models.PositiveIntegerField()
-    owner = models.OneToOneField(User,
-                                 on_delete=models.CASCADE,
-                                 related_name='companies',
-                                 null=True)
+    owner = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name='companies',
+        null=True
+    )
 
 
 class Speciality(models.Model):
@@ -26,13 +28,17 @@ class Speciality(models.Model):
 
 class Vacancy(models.Model):
     title = models.CharField(max_length=128)
-    speciality = models.ForeignKey(Speciality,
-                                   on_delete=models.CASCADE,
-                                   related_name='vacancies',
-                                   default='backend')
-    company = models.ForeignKey(Company,
-                                on_delete=models.CASCADE,
-                                related_name='vacancies')
+    speciality = models.ForeignKey(
+        Speciality,
+        on_delete=models.CASCADE,
+        related_name='vacancies',
+        default='backend'
+    )
+    company = models.ForeignKey(
+        Company,
+        on_delete=models.CASCADE,
+        related_name='vacancies'
+    )
     skills = models.TextField()
     description = models.TextField()
     salary_min = models.PositiveIntegerField()
@@ -44,12 +50,16 @@ class Application(models.Model):
     written_username = models.CharField(max_length=64)
     written_phone = models.CharField(max_length=16)
     written_cover_letter = models.TextField()
-    vacancy = models.ForeignKey(Vacancy,
-                                on_delete=models.CASCADE,
-                                related_name='applications')
-    user = models.ForeignKey(User,
-                             on_delete=models.CASCADE,
-                             related_name='applications')
+    vacancy = models.ForeignKey(
+        Vacancy,
+        on_delete=models.CASCADE,
+        related_name='applications'
+    )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='applications'
+    )
 
 
 class ApplicantStatus(models.Model):
@@ -67,25 +77,33 @@ class ApplicantGrade(models.Model):
 
 
 class Resume(models.Model):
-    user = models.OneToOneField(User,
-                                on_delete=models.CASCADE,
-                                related_name='resume',
-                                null=True)
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name='resume',
+        null=True
+    )
     name = models.CharField(max_length=32)
     surname = models.CharField(max_length=32)
-    status = models.ForeignKey(ApplicantStatus,
-                               on_delete=models.CASCADE,
-                               related_name='resumes',
-                               default=3)
+    status = models.ForeignKey(
+        ApplicantStatus,
+        on_delete=models.CASCADE,
+        related_name='resumes',
+        default=3
+    )
     salary = models.PositiveIntegerField()
-    speciality = models.ForeignKey(Speciality,
-                                   on_delete=models.CASCADE,
-                                   related_name='resumes',
-                                   default='backend')
-    grade = models.ForeignKey(ApplicantGrade,
-                              on_delete=models.CASCADE,
-                              related_name='resumes',
-                              default=2)
+    speciality = models.ForeignKey(
+        Speciality,
+        on_delete=models.CASCADE,
+        related_name='resumes',
+        default='backend'
+    )
+    grade = models.ForeignKey(
+        ApplicantGrade,
+        on_delete=models.CASCADE,
+        related_name='resumes',
+        default=2
+    )
     education = models.TextField()
     experience = models.TextField()
     portfolio = models.CharField(max_length=128)
