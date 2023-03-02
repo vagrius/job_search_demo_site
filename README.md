@@ -1,2 +1,2 @@
-# Jobs Demo Site
-Jobs demo site using Python, Django, SQLite, HTML and Bootstrap.
+# Job search demo site
+Job search demo site. Using Python, Django, SQLite, HTML and Bootstrap.
